@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <a href="#">
+            <p>home</p>
+        </a>
+        <a href="post.html">
+            <p>criar cadastro</p>
+        </a>
+        <a href="index.html">
+            <p>buscar cadastro</p>
+        </a>
+        <a href="login.html">
+            <p>atualizar dados</p>
+        </a>
+        <a href="login.html">
+            <p>deletar cadastro</p>
+        </a>
+
+        <div class="margim">
+            <div class="centro">
+            
+                <h1>Formulário! Protocolo HTTP - CRUD</h1>
+                <form>
+                    <h3>DELETE</h3>
+                    <label>CPF:</label>
+                    <input type="text" id="cpf">
+                    <input class="btn" type="button" onclick="deletarDados()" value="Deletar">
+                </form>
+            </div>
+        </div>
+        <Footer>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <h3>Entre em contato conosco:</h3>
+                        <ul>
+                            <li>Endereço: [Endereço da sua empresa]</li>
+                            <li>Telefone: [Número de telefone da sua empresa]</li>
+                            <li>E-mail: [Endereço de e-mail da sua empresa]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+<h5>© 2024 CADall. Todos os direitos reservados.</h5>
+
+        </Footer>
+    <script>
+        function deletarDados() {
+            const cpf = document.getElementById("cpf").value;
+          
+            fetch(`pessoas`)
+              .then(response => response.json())
+              .then(data => {
+                document.getElementById('cpf').value = '';
+                data.forEach(obj => {
+                  if (obj.cpf === cpf) {
+                    fetch(`pessoas/${obj.id}`, {
+                      method: 'DELETE'
+                    });
+                  }
+                });
+              });
+          }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

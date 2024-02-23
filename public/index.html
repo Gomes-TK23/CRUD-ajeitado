@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <a href="#">
+            <p>home</p>
+        </a>
+        <a href="post.html">
+            <p>criar cadastro</p>
+        </a> 
+        <a href="index.html">
+            <p>buscar cadastro</p>
+        </a>
+        <a href="login.html">
+            <p>atualizar dados</p>
+        </a>
+        <a href="login.html">
+            <p>deletar cadastro</p>
+        </a>
+    
+        <div class="margim">
+            <div class="centro">
+                <h1>Formulário! Protocolo HTTP - CRUD</h1>
+                <form>
+                    <h1>Dados Cadastrais - GET</h1>
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Idade</th>
+                            <th>CPF</th>
+                        </tr>
+                        <tbody id="tabela-corpo"></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <Footer>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <h3>Entre em contato conosco:</h3>
+                        <ul>
+                            <li>Endereço: [Endereço da sua empresa]</li>
+                            <li>Telefone: [Número de telefone da sua empresa]</li>
+                            <li>E-mail: [Endereço de e-mail da sua empresa]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+<h5>© 2024 CADall. Todos os direitos reservados.</h5>
+
+        </Footer>
+    
+    <script>
+        //GET
+        fetch(`pessoas`)
+        .then(response => response.json())
+        .then(data => {
+            const tabela = document.getElementById('tabela-corpo');
+            //Utilizado o loop ForEach para interar cada objeto no array retornado a API
+            data.forEach((objeto) => {
+                //Adicionado essa string de template ao conteudo HTML do corpo da tabela.
+                const linha = `<tr>
+                    <td>${objeto.id}</td>
+                    <td>${objeto.nome}</td>
+                    <td>${objeto.idade}</td>
+                    <td>${objeto.cpf}</td>
+                </tr>`;
+                tabela.innerHTML += linha;
+            })
+        })
+
+        //GET-PUT   
+        function buscarDados() {
+            const cpf = document.getElementById('cpfAtualizar').value;
+            fetch(`pessoas`, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const pessoaEncontrada = data.find(pessoa => pessoa.cpf === cpf);
+                
+                console.log(data)
+                if (pessoaEncontrada) {
+                    document.getElementById('nomeAtualizar').value = pessoaEncontrada.nome;
+                    document.getElementById('idadeAtualizar').value = pessoaEncontrada.idade;
+                    document.getElementById('cpfAtualizar').value = pessoaEncontrada.cpf;
+                    document.getElementById('id').value = pessoaEncontrada.id;
+                } else {
+                    alert('Pessoa não encontrada!');
+                }
+            })
+        }
+    </script>
+</body>
+</html>

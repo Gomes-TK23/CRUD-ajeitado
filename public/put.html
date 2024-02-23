@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <a href="#">
+            <p>home</p>
+        </a>
+        <a href="post.html">
+            <p>criar cadastro</p>
+        </a>
+        <a href="index.html">
+            <p>buscar cadastro</p>
+        </a>
+        <a href="login.html">
+            <p>atualizar dados</p>
+        </a>
+        <a href="delete.html">
+            <p>deletar cadastro</p>
+        </a>
+    
+        <div class="margim">
+            <div class="centro">
+                <h1>Formulário! Protocolo HTTP - CRUD</h1>
+                <form>
+                    <h3>PUT</h3>
+                    <label>ID:</label>
+                    <input type="text" id="id" readonly><br>
+                    <label>Nome:</label>
+                    <input type="text" id="nomeAtualizar">
+                    <br>
+                    <label>Idade:</label>
+                    <input type="text" id="idadeAtualizar">
+                    <br>
+                    <label>CPF:</label>
+                    <input type="text" id="cpfAtualizar" placeholder="Digite o CPF para busca">
+                    <br>
+                    <input class="btn" type="button" onclick="buscarDados()" value="Buscar">
+                    <input class="btn" type="button" onclick="atualizarDados()" value="Atualizar">
+                    <br>
+                </form>
+                <br>
+                <hr>
+            </div>
+        </div>
+
+        <Footer>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <h3>Entre em contato conosco:</h3>
+                        <ul>
+                            <li>Endereço: [Endereço da sua empresa]</li>
+                            <li>Telefone: [Número de telefone da sua empresa]</li>
+                            <li>E-mail: [Endereço de e-mail da sua empresa]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+<h5>© 2024 CADall. Todos os direitos reservados.</h5>
+
+        </Footer>
+
+    <script>
+        //PUT
+        function atualizarDados() {
+            const id = document.getElementById('id').value;
+            const nome = document.getElementById('nomeAtualizar').value;
+            const idade = document.getElementById('idadeAtualizar').value;
+            const cpf = document.getElementById('cpfAtualizar').value;
+
+            fetch(`pessoas/${id}`,{
+                method: 'PUT',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({ nome: nome, idade: idade,cpf: cpf})
+            })
+            .then(response => response.json())
+            .then(data => {
+                // limpa os inputs do formulário
+                document.getElementById('id').value = '';
+                document.getElementById('nomeAtualizar').value = '';
+                document.getElementById('idadeAtualizar').value = '';
+                document.getElementById('cpfAtualizar').value = '';
+            });
+            
+        }
+
+        //GET-PUT   
+        function buscarDados() {
+            const cpf = document.getElementById('cpfAtualizar').value;
+            fetch(`pessoas`, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const pessoaEncontrada = data.find(pessoa => pessoa.cpf === cpf);
+                
+                console.log(data)
+                if (pessoaEncontrada) {
+                    document.getElementById('nomeAtualizar').value = pessoaEncontrada.nome;
+                    document.getElementById('idadeAtualizar').value = pessoaEncontrada.idade;
+                    document.getElementById('cpfAtualizar').value = pessoaEncontrada.cpf;
+                    document.getElementById('id').value = pessoaEncontrada.id;
+                } else {
+                    alert('Pessoa não encontrada!');
+                }
+            })
+        }
+    </script>
+</body>
+</html>
